@@ -225,3 +225,24 @@ button.danger { background: #b83232; }
   }
   #addTransactionBtn { padding: 0.8rem 1rem; border-radius: 999px; }
 }
+.logo-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+}
+
+.logo-img {
+  width: 32px;
+  height: 32px;
+  margin-right: 8px;
+}
+
+.logo-text {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.currency-row {
+  margin-top: 1rem;
+}
