@@ -12,9 +12,13 @@
     <!-- Sidebar (People) -->
     <aside class="sidebar" id="sidebar">
       <div class="sidebar-header">
-        <h1 class="logo">LendLord</h1>
-        <button class="close-sidebar" id="closeSidebarBtn">✕</button>
-      </div>
+  <a href="#" id="homeLink" class="logo-link">
+    <img src="icon.png" alt="LendLord Logo" class="logo-img" />
+    <h1 class="logo-text">LendLord</h1>
+  </a>
+  <button class="close-sidebar" id="closeSidebarBtn">✕</button>
+</div>
+
 
       <div class="search-row">
         <input type="text" id="searchInput" placeholder="Search people..." />
@@ -34,6 +38,33 @@
       <header class="mobile-topbar">
         <button id="openSidebarBtn" class="secondary">≡ People</button>
       </header>
+<section id="homepage" class="homepage hidden">
+  <h2>Global Stats</h2>
+  <div class="stats">
+    <div class="stat-card">
+      <span class="label">Total Lent</span>
+      <span id="globalLent" class="value green">$0</span>
+    </div>
+    <div class="stat-card">
+      <span class="label">Total Borrowed</span>
+      <span id="globalBorrowed" class="value red">$0</span>
+    </div>
+    <div class="stat-card">
+      <span class="label">Net Balance</span>
+      <span id="globalNet" class="value">$0</span>
+    </div>
+  </div>
+
+  <div class="currency-row">
+    <label for="currencySelect">Currency:</label>
+    <select id="currencySelect">
+      <option value="INR" selected>INR (₹)</option>
+      <option value="EUR">EUR (€)</option>
+      <option value="USD">USD ($)</option>
+      <option value="GBP">GBP (£)</option>
+    </select>
+  </div>
+</section>
 
       <section id="welcome" class="welcome">
         <h2>🌙 Welcome to LendLord</h2>
