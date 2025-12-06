@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LendLord — Debt Tracker</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="manifest" href="manifest.json">
+</head>
+<body>
+  <div class="app">
+    <!-- Sidebar (People) -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <h1 class="logo">LendLord</h1>
+        <button class="close-sidebar" id="closeSidebarBtn">✕</button>
+      </div>
+
+      <div class="search-row">
+        <input type="text" id="searchInput" placeholder="Search people..." />
+        <button id="addPersonBtn" class="primary">+ Add Person</button>
+      </div>
+
+      <div class="sort-row">
+        <button id="sortAlphaBtn" class="secondary">Sort A→Z</button>
+        <button id="sortRecentBtn" class="secondary">Sort Recent</button>
+      </div>
+
+      <ul id="peopleList" class="people-list"></ul>
+    </aside>
+
+    <!-- Main Panel -->
+    <main class="main-panel">
+      <header class="mobile-topbar">
+        <button id="openSidebarBtn" class="secondary">≡ People</button>
+      </header>
+
+      <section id="welcome" class="welcome">
+        <h2>🌙 Welcome to LendLord</h2>
+        <p>Select a person from the sidebar, or add someone to get started.</p>
+      </section>
+
+      <section id="personPanel" class="person-panel hidden">
+        <div class="person-header">
+          <div>
+            <h2 id="personName"></h2>
+            <p id="personNotes" class="notes"></p>
+          </div>
+          <div class="person-actions">
+            <button id="editPersonBtn" class="secondary">Edit</button>
+            <button id="deletePersonBtn" class="danger">Delete</button>
+          </div>
+        </div>
+
+        <div class="stats">
+          <div class="stat-card">
+            <span class="label">Total owed to you</span>
+            <span id="owedToYou" class="value green">$0</span>
+          </div>
+          <div class="stat-card">
+            <span class="label">Total you owe</span>
+            <span id="youOwe" class="value red">$0</span>
+          </div>
+          <div class="stat-card">
+            <span class="label">Net balance</span>
+            <span id="netBalance" class="value">$0</span>
+          </div>
+        </div>
+
+        <div class="panel-actions">
+          <button id="addTransactionBtn" class="primary">+ Add Transaction</button>
+        </div>
+
+        <ul id="transactionList" class="transaction-list"></ul>
+      </section>
+    </main>
+  </div>
+
+  <!-- Overlay -->
+  <div id="overlay" class="overlay hidden"></div>
+
+  <!-- Add/Edit Person Modal -->
+  <div id="personModal" class="modal hidden">
+    <div class="modal-header">
+      <h3 id="personModalTitle">Add Person</h3>
+      <button class="close-modal" data-close>✕</button>
+    </div>
+    <div class="modal-body">
+      <label class="field">
+        <span class="field-label">Name</span>
+        <input type="text" id="personNameInput" placeholder="e.g., Aisha" />
+      </label>
+      <label class="field">
+        <span class="field-label">Notes</span>
+        <textarea id="personNotesInput" placeholder="Optional notes..."></textarea>
+      </label>
+    </div>
+    <div class="modal-footer">
+      <button id="savePersonBtn" class="primary">Save</button>
+    </div>
+  </div>
+
+  <!-- Add/Edit Transaction Modal -->
+  <div id="transactionModal" class="modal hidden">
+    <div class="modal-header">
+      <h3 id="transactionModalTitle">Add Transaction</h3>
+      <button class="close-modal" data-close>✕</button>
+    </div>
+    <div class="modal-body">
+      <label class="field">
+        <span class="field-label">Amount</span>
+        <input type="number" id="amountInput" placeholder="e.g., 500" step="0.01" />
+      </label>
+      <label class="field">
+        <span class="field-label">Type</span>
+        <select id="typeInput">
+          <option value="lent">Lent (they owe you)</option>
+          <option value="borrowed">Borrowed (you owe)</option>
+        </select>
+      </label>
+      <label class="field">
+        <span class="field-label">Date</span>
+        <input type="date" id="dateInput" />
+      </label>
+      <label class="field">
+        <span class="field-label">Note</span>
+        <textarea id="noteInput" placeholder="Optional note..."></textarea>
+      </label>
+    </div>
+    <div class="modal-footer">
+      <button id="saveTransactionBtn" class="primary">Save</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
