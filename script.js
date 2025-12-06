@@ -58,6 +58,14 @@ const saveTransactionBtn = document.getElementById('saveTransactionBtn');
 const sidebarEl = document.getElementById('sidebar');
 const openSidebarBtn = document.getElementById('openSidebarBtn');
 const closeSidebarBtn = document.getElementById('closeSidebarBtn');
+const homeLink = document.getElementById('homeLink');
+const homepageEl = document.getElementById('homepage');
+const globalLentEl = document.getElementById('globalLent');
+const globalBorrowedEl = document.getElementById('globalBorrowed');
+const globalNetEl = document.getElementById('globalNet');
+const currencySelect = document.getElementById('currencySelect');
+
+let currentCurrency = 'INR';
 
 // Sidebar mobile controls
 openSidebarBtn.addEventListener('click', () => {
@@ -130,13 +138,14 @@ function selectPerson(index) {
   updateStats(p);
   renderTransactions(p);
 
+  homepageEl.classList.add('hidden');   // hide homepage
   welcomeEl.classList.add('hidden');
   personPanelEl.classList.remove('hidden');
 
-  // On mobile, close sidebar when a person is selected
   sidebarEl.classList.remove('show');
   overlayShow(false);
 }
+
 
 // Stats
 function calcNet(person) {
@@ -295,8 +304,10 @@ deletePersonBtn.addEventListener('click', () => {
   savePeople();
   renderPeopleList();
   personPanelEl.classList.add('hidden');
+  homepageEl.classList.add('hidden');   // hide homepage
   welcomeEl.classList.remove('hidden');
 });
+
 
 // Transactions modal
 addTransactionBtn.addEventListener('click', () => {
@@ -376,12 +387,14 @@ document.querySelectorAll('[data-close]').forEach(btn =>
 );
 
 // Helpers
-function formatCurrency(n) {
-  const num = Number(n) || 0;
-  const sign = num < 0 ? '-' : '';
-  const abs = Math.abs(num);
-  return `${sign}$${abs.toLocaleString(undefined, { maximumFractionDigits: 2 })}`;
+function formatCurrency(n, currency = currentCurrency) {
+  return new Intl.NumberFormat(undefined, {
+    style: 'currency',
+    currency,
+    maximumFractionDigits: 2
+  }).format(n);
 }
+
 
 // Initial render
 renderPeopleList();
@@ -389,3 +402,42 @@ if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("sw.js")
     .then(() => console.log("Service Worker registered"));
 }
+homeLink.addEventListener('click', (e) => {
+  e.preventDefault();
+  showHomepage();
+});
+
+function showHomepage() {
+  homepageEl.classList.remove('hidden');
+  welcomeEl.classList.add('hidden');
+  personPanelEl.classList.add('hidden');
+  updateGlobalStats();
+}
+
+function updateGlobalStats() {
+  let totalLent = 0;
+  let totalBorrowed = 0;
+
+  people.forEach(p => {
+    p.transactions.forEach(t => {
+      if (t.type === 'lent') totalLent += t.amount;
+      else if (t.type === 'borrowed') totalBorrowed += t.amount;
+    });
+  });
+
+  const net = totalLent - totalBorrowed;
+
+  globalLentEl.textContent = formatCurrency(totalLent, currentCurrency);
+  globalBorrowedEl.textContent = formatCurrency(totalBorrowed, currentCurrency);
+  globalNetEl.textContent = formatCurrency(net, currentCurrency);
+}
+currencySelect.addEventListener('change', (e) => {
+  currentCurrency = e.target.value;
+  // Re-render all stats and transactions
+  if (!personPanelEl.classList.contains('hidden')) {
+    const p = people[selectedIndex];
+    updateStats(p);
+    renderTransactions(p);
+  }
+  updateGlobalStats();
+});
